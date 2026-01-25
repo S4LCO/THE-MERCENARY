@@ -1,0 +1,138 @@
+{
+  "chances": {
+    "equipment": {
+      "FirstPrimaryWeapon": 100,
+      "SecondPrimaryWeapon": 0,
+      "Holster": 0,
+      "TacticalVest": 100,
+      "Headwear": 100,
+      "FaceCover": 100,
+      "Backpack": 0,
+      "Earpiece": 0,
+      "Eyewear": 0
+    },
+    "weaponMods": {
+      "mod_pistol_grip": 100,
+      "mod_magazine": 100,
+      "mod_reciever": 100,
+      "mod_stock": 100,
+      "mod_stock_000": 100,
+      "mod_charge": 100,
+      "mod_tactical": 100,
+      "mod_scope": 100,
+      "mod_barrel": 100,
+      "mod_muzzle": 100,
+      "mod_gas_block": 100,
+      "mod_handguard": 100,
+      "mod_foregrip": 100,
+      "mod_sight_front": 100,
+      "mod_sight_rear": 100,
+      "Helmet_top": 100,
+      "Helmet_back": 100,
+      "Helmet_eyes": 100,
+      "Helmet_jaw": 100
+    }
+  },
+  "inventory": {
+    "equipment": {
+      "FirstPrimaryWeapon": {
+        "6972548d29771316cd128869": 1
+      },
+      "TacticalVest": {
+        "6965f73311b653b39d8d3c18": 1
+      },
+      "Headwear": {
+        "6972953d3d7cc34bad1f850f": 1
+      },
+      "FaceCover": {
+        "63626d904aa74b8fe30ab426": 1
+      }
+    },
+    "mods": {
+      "6972548d29771316cd128869": {
+        "mod_pistol_grip": [
+          "59db3a1d86f77429e05b4e92"
+        ],
+        "mod_magazine": [
+          "693eaa5b4015878f9ce091fc"
+        ],
+        "mod_reciever": [
+          "5fbcc3e4d6fa9c00c571bb58"
+        ],
+        "mod_stock": [
+          "68badb6458dbe419740b1520"
+        ],
+        "mod_charge": [
+          "5fbcc640016cce60e8341acc"
+        ]
+      },
+      "68badb6458dbe419740b1520": {
+        "mod_stock_000": [
+          "68badc0366a72211fe004bc7"
+        ]
+      },
+      "5fbcc3e4d6fa9c00c571bb58": {
+        "mod_tactical": [
+          "644a3df63b0b6f03e101e065"
+        ],
+        "mod_scope": [
+          "58491f3324597764bc48fa02"
+        ],
+        "mod_barrel": [
+          "681245a31eb182c02f0d7f09"
+        ],
+        "mod_handguard": [
+          "681236df5cbf0518e00557a0"
+        ],
+        "mod_sight_rear": [
+          "5bc09a18d4351e003562b68e"
+        ]
+      },
+      "681245a31eb182c02f0d7f09": {
+        "mod_muzzle": [
+          "695aea00e2fd3a399128f47d"
+        ],
+        "mod_gas_block": [
+          "68124640c5fd00ec0a01a237"
+        ]
+      },
+      "695aea00e2fd3a399128f47d": {
+        "mod_muzzle": [
+          "695a9eeb3b654dfbcd01c0d7"
+        ]
+      },
+      "681236df5cbf0518e00557a0": {
+        "mod_foregrip": [
+          "5b7be4895acfc400170e2dd5"
+        ],
+        "mod_sight_front": [
+          "5bc09a30d4351e00367fb7c8"
+        ]
+      },
+      "5b7be4895acfc400170e2dd5": {
+        "mod_foregrip": [
+          "6913809f3cf4b24af9e9175a"
+        ]
+      },
+      "6972953d3d7cc34bad1f850f": {
+        "Helmet_top": [
+          "697296e758e52f17524377bd"
+        ],
+        "Helmet_back": [
+          "697297b7031dc7f81c1fee29"
+        ],
+        "Helmet_jaw": [
+          "69731c84bec22b47a3ce0c05"
+        ],
+        "Helmet_eyes": [
+          "69731c18e74581c4cc4e06be"
+        ]
+      }
+    },
+    "Ammo": {
+      "Caliber762x35": {
+        "697270610a67da4c9fb12a07": 1
+      }
+    }
+  }
+}

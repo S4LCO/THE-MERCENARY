@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net471</TargetFramework>
+    <AssemblyName>TheMercenaryPlugin</AssemblyName>
+    <RootNamespace>TheMercenary</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Prepatch\ClientInfo.cs">
+      <Link>ClientInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>S:\SPT 4\BepInEx\core\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>S:\SPT 4\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Assembly-CSharp">
+      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+
+    <Reference Include="DrakiaXYZ-BigBrain">
+      <HintPath>S:\SPT 4\BepInEx\plugins\DrakiaXYZ-BigBrain.dll</HintPath>
+    </Reference>
+    <Reference Include="SAIN">
+      <HintPath>S:\SPT 4\BepInEx\plugins\SAIN\SAIN.dll</HintPath>
+    </Reference>
+
+    <Reference Include="spt-common">
+      <HintPath>S:\SPT 4\BepInEx\plugins\spt\spt-common.dll</HintPath>
+    </Reference>
+    <Reference Include="spt-custom">
+      <HintPath>S:\SPT 4\BepInEx\plugins\spt\spt-custom.dll</HintPath>
+    </Reference>
+    <Reference Include="spt-singleplayer">
+      <HintPath>S:\SPT 4\BepInEx\plugins\spt\spt-singleplayer.dll</HintPath>
+    </Reference>
+    <Reference Include="spt-reflection">
+      <HintPath>S:\SPT 4\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

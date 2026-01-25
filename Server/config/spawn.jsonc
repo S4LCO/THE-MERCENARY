@@ -1,0 +1,57 @@
+{
+  "enableLogs": true,
+  "maps": {
+    "shoreline": {
+      "enabled": true,
+      "chance": 30,
+      "zones": [
+        "ZoneGreenHouses",
+        "ZoneSanatorium1",
+        "ZoneSanatorium2",
+        "ZoneMeteoStation",
+        "ZoneForestSpawn",
+		"ZoneGasStation",
+		"ZoneBusStation"
+		
+      ]
+    },
+
+    "sandbox": {
+      "enabled": true,
+      "chance": 15,
+      "zones": [
+        "ZoneSandbox"
+      ]
+    },
+
+    "sandbox_high": {
+      "enabled": true,
+      "chance": 25,
+      "zones": [
+        "ZoneSandbox"
+      ]
+    },
+
+    "interchange": {
+      "enabled": true,
+      "chance": 30,
+      "zones": [
+        "ZoneIDEA",
+        "ZoneCenter",
+		"ZoneOLI",
+		"ZoneGoshan",
+		"ZonePowerStation"
+      ]
+    },
+	
+	"tarkovstreets": {
+      "enabled": true,
+      "chance": 20,
+      "zones": [
+        "ZoneCinema",
+        "ZoneConcordia",
+		"ZoneConstruction"
+      ]
+    }
+  }
+}
