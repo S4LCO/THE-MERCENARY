@@ -8,7 +8,7 @@
       "Headwear": 100,
       "FaceCover": 100,
       "Backpack": 0,
-      "Earpiece": 0,
+      "Earpiece": 100,
       "Eyewear": 0
     },
     "weaponMods": {
@@ -45,8 +45,11 @@
         "6972953d3d7cc34bad1f850f": 1
       },
       "FaceCover": {
-        "63626d904aa74b8fe30ab426": 1
-      }
+        "572b7fa524597762b747ce82": 1
+      },
+	  "Earpiece": {
+		"69581edd6ddb7221ce7b1666": 1
+	  }
     },
     "mods": {
       "6972548d29771316cd128869": {
@@ -126,6 +129,44 @@
         ],
         "Helmet_eyes": [
           "69731c18e74581c4cc4e06be"
+        ]
+      },
+      "6965f73311b653b39d8d3c18": {
+        "Soft_armor_front": [
+          "6965ee8276af229d220d68b0"
+        ],
+        "Soft_armor_back": [
+          "6965ee87d0427efa45d26069"
+        ],
+        "Soft_armor_left": [
+          "6965ee8cb4b2bb3a49c2caf6"
+        ],
+        "soft_armor_right": [
+          "6965ee92928dfed414ef71fd"
+        ],
+        "Collar": [
+          "6965f02919977e502d26d31b"
+        ],
+        "Shoulder_l": [
+          "6965f09d8e5c4e48ecd0db9d"
+        ],
+        "Shoulder_r": [
+          "6965f0a63727267d4602b567"
+        ],
+        "Groin": [
+          "6965ee74551898f828486bf3"
+        ],
+        "Front_plate": [
+          "693da1f4e730b6700964dda7"
+        ],
+        "Back_plate": [
+          "693da1f4e730b6700964dda7"
+        ],
+        "Left_side_plate": [
+          "64afdb577bb3bfe8fe03fd1d"
+        ],
+        "Right_side_plate": [
+          "64afdb577bb3bfe8fe03fd1d"
         ]
       }
     },

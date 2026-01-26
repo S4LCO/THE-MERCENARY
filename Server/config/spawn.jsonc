@@ -9,8 +9,6 @@
         "ZoneSanatorium1",
         "ZoneSanatorium2",
         "ZoneMeteoStation",
-        "ZoneForestSpawn",
-		"ZoneGasStation",
 		"ZoneBusStation"
 		
       ]
@@ -46,7 +44,7 @@
 	
 	"tarkovstreets": {
       "enabled": true,
-      "chance": 20,
+      "chance": 30,
       "zones": [
         "ZoneCinema",
         "ZoneConcordia",

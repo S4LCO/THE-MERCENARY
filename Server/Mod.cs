@@ -22,7 +22,7 @@ public record ModMetadata : AbstractModMetadata
     public override Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; } = new()
     {
         { "com.morebotsapi.tacticaltoaster", new SemanticVersioning.Range(">=1.1.0") },
-        { "com.wtt.commonlib", new SemanticVersioning.Range("~2.0.12") }
+        { "com.wtt.commonlib", new SemanticVersioning.Range("~2.0.14") }
     };
     public override string? Url { get; init; }
     public override bool? IsBundleMod { get; init; } = true;
