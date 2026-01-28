@@ -30,7 +30,7 @@ public static class WildSpawnTypePatch
             baseBrain: baseBrainInt,
             isBoss: true,
             isFollower: false,
-            isHostileToEverybody: true
+            isHostileToEverybody: false
         );
 
         bot.SetCountAsBossForStatistics(true);

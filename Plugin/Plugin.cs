@@ -14,5 +14,8 @@ public sealed class Plugin : BaseUnityPlugin
     private void Awake()
     {
         LogSource = Logger;
+
+        // Only enable patches.
+        PatchBootstrap.Enable();
     }
 }

@@ -35,6 +35,14 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.AIModule">
+      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\UnityEngine.AIModule.dll</HintPath>
+    </Reference>
+
+    <!-- Required because EFT player types reference IDissonancePlayer -->
+    <Reference Include="DissonanceVoip">
+      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\DissonanceVoip.dll</HintPath>
+    </Reference>
 
     <Reference Include="DrakiaXYZ-BigBrain">
       <HintPath>S:\SPT 4\BepInEx\plugins\DrakiaXYZ-BigBrain.dll</HintPath>
@@ -54,6 +62,10 @@
     </Reference>
     <Reference Include="spt-reflection">
       <HintPath>S:\SPT 4\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Comfort">
+      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
     </Reference>
   </ItemGroup>
 

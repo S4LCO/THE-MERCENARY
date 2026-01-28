@@ -75,19 +75,19 @@ public sealed class TheMercenaryServer(
 
         customBotTypeService.AddCustomWildSpawnTypeNames(typeNames);
 
-        factionService.AddEnemyByFaction(botTypes, "savage");
-        factionService.AddEnemyByFaction(botTypes, "rogues");
-        factionService.AddEnemyByFaction(botTypes, "usec");
-        factionService.AddEnemyByFaction(botTypes, "bear");
-        factionService.AddEnemyByFaction(botTypes, "infected");
+        // Make Mercenary neutral to bots by default:
+        // Instead of defining enemies + revenge, define friendlies for both sides.
+        factionService.AddFriendlyByFaction(botTypes, "savage");
+        factionService.AddFriendlyByFaction(botTypes, "rogues");
+        factionService.AddFriendlyByFaction(botTypes, "usec");
+        factionService.AddFriendlyByFaction(botTypes, "bear");
+        factionService.AddFriendlyByFaction(botTypes, "infected");
 
-        factionService.AddEnemyByFaction("savage", BotTypeName);
-        factionService.AddEnemyByFaction("rogues", BotTypeName);
-        factionService.AddEnemyByFaction("usec", BotTypeName);
-        factionService.AddEnemyByFaction("bear", BotTypeName);
-        factionService.AddEnemyByFaction("infected", BotTypeName);
-
-        factionService.AddRevengeByFaction(botTypes, BotTypeName);
+        factionService.AddFriendlyByFaction("savage", BotTypeName);
+        factionService.AddFriendlyByFaction("rogues", BotTypeName);
+        factionService.AddFriendlyByFaction("usec", BotTypeName);
+        factionService.AddFriendlyByFaction("bear", BotTypeName);
+        factionService.AddFriendlyByFaction("infected", BotTypeName);
 
         spawnController.ApplySpawnConfig();
         EnableAbpsCompat();
