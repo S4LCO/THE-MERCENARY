@@ -1,5 +1,6 @@
 #nullable enable
 using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 
 namespace TheMercenary;
@@ -11,9 +12,18 @@ public sealed class Plugin : BaseUnityPlugin
 {
     public static ManualLogSource? LogSource;
 
+    internal static ConfigEntry<bool> EnableHunt { get; private set; } = null!;
+
     private void Awake()
     {
         LogSource = Logger;
+
+        EnableHunt = Config.Bind(
+            "Odin",
+            "EnableHunt",
+            true,
+            "Enable/disable Odin hunt behavior (BigBrain layer + target tracking)."
+        );
 
         // Only enable patches.
         PatchBootstrap.Enable();

@@ -29,10 +29,12 @@ internal sealed class HuntTargetLayer : CustomLayer
 
     public override bool IsActive()
     {
+        if (!TheMercenary.Plugin.EnableHunt.Value)
+            return false;
+
         if (!huntManager.HasTarget())
             return false;
 
-        // Decide action each tick (kept simple/solo)
         nextAction = typeof(HuntTargetAction);
         nextActionReason = "HuntingTarget";
         return true;
@@ -46,7 +48,6 @@ internal sealed class HuntTargetLayer : CustomLayer
 
     public override bool IsCurrentActionEnding()
     {
-        // End when action type changed or current differs
         return nextAction != lastAction || (CurrentAction.Type != nextAction && CurrentAction.Type != lastAction);
     }
 }

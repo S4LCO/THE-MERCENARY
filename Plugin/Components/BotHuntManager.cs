@@ -29,6 +29,9 @@ public sealed class BotHuntManager : MonoBehaviour
 
     public void Update()
     {
+        if (!TheMercenary.Plugin.EnableHunt.Value)
+            return;
+
         if (Time.time > nextTargetUpdate)
         {
             nextTargetUpdate = Time.time + 3f;

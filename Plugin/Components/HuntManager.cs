@@ -18,6 +18,9 @@ public sealed class HuntManager : MonoBehaviourSingleton<HuntManager>
 
     private void OnBotCreated(BotOwner bot)
     {
+        if (!TheMercenary.Plugin.EnableHunt.Value)
+            return;
+
         if (!WildSpawnTypeExtensions.IsMercenary(bot.Profile.Info.Settings.Role))
             return;
 
@@ -28,6 +31,9 @@ public sealed class HuntManager : MonoBehaviourSingleton<HuntManager>
 
     public void FindTarget(BotHuntManager hunter)
     {
+        if (!TheMercenary.Plugin.EnableHunt.Value)
+            return;
+
         var allPlayers = Singleton<GameWorld>.Instance.AllAlivePlayersList.Randomize();
 
         foreach (var player in allPlayers)
