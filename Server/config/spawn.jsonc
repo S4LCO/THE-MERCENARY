@@ -5,15 +5,10 @@
       "enabled": true,
       "chance": 30,
       "zones": [
-        "ZoneGreenHouses",
         "ZoneSanatorium1",
-        "ZoneSanatorium2",
-        "ZoneMeteoStation",
-		"ZoneBusStation"
-		
+        "ZoneSanatorium2"		
       ]
     },
-
     "sandbox": {
       "enabled": true,
       "chance": 15,
@@ -21,7 +16,6 @@
         "ZoneSandbox"
       ]
     },
-
     "sandbox_high": {
       "enabled": true,
       "chance": 25,
@@ -29,7 +23,6 @@
         "ZoneSandbox"
       ]
     },
-
     "interchange": {
       "enabled": true,
       "chance": 30,
@@ -41,7 +34,6 @@
 		"ZonePowerStation"
       ]
     },
-	
 	"tarkovstreets": {
       "enabled": true,
       "chance": 30,

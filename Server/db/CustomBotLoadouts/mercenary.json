@@ -9,7 +9,8 @@
       "FaceCover": 100,
       "Backpack": 0,
       "Earpiece": 100,
-      "Eyewear": 0
+      "Eyewear": 0,
+	  "mod_equipment": 100
     },
     "weaponMods": {
       "mod_pistol_grip": 100,
@@ -37,8 +38,7 @@
       "mod_tactical_000": 100,
       "mod_mount_001": 100,
       "mod_stock_001": 100,
-      "mod_stock_002": 100,
-      "mod_equipment": 100
+      "mod_stock_002": 100
     }
   },
   "inventory": {
@@ -251,11 +251,20 @@
           "69731c18e74581c4cc4e06be"
         ]
       },
-      "5f60c74e3b85f6263c145586": {
-        "mod_equipment": [
+	  "5f60c74e3b85f6263c145586": {
+		"Helmet_top": [
+          "657bc285aab96fccee08bea3"
+        ],
+		"Helmet_back": [
+          "657bc2c5a1c61ee0c3036333"
+        ],
+		"Helmet_ears": [
+          "657bc2e7b30eca976305118d"
+        ],
+		"mod_equipment": [
           "5f60c85b58eff926626a60f7"
-        ]
-      },
+        ]		
+	  },
       "6965f73311b653b39d8d3c18": {
         "Soft_armor_front": [
           "6965ee8276af229d220d68b0"
