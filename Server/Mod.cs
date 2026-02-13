@@ -1,4 +1,3 @@
-using HarmonyLib;
 using MoreBotsServer.Models;
 using MoreBotsServer.Services;
 using SPTarkov.DI.Annotations;
@@ -16,7 +15,7 @@ public record ModMetadata : AbstractModMetadata
     public override string Name { get; init; } = "The Mercenary";
     public override string Author { get; init; } = "Salco";
     public override List<string>? Contributors { get; init; } = new() { };
-    public override SemanticVersioning.Version Version { get; init; } = new(1, 4, 1);
+    public override SemanticVersioning.Version Version { get; init; } = new(1, 5, 0);
     public override SemanticVersioning.Range SptVersion { get; init; } = new("~4.0.3");
     public override List<string>? Incompatibilities { get; init; }
     public override Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; } = new()
@@ -35,29 +34,11 @@ public sealed class TheMercenaryServer(
     MoreBotsServer.MoreBotsAPI moreBotsApi,
     MoreBotsCustomBotTypeService customBotTypeService,
     FactionService factionService,
-    WTTServerCommonLib.WTTServerCommonLib wttCommon,
-    SpawnController spawnController
+    WTTServerCommonLib.WTTServerCommonLib wttCommon
 ) : IOnLoad
 {
     private const int WildSpawnTypeValue = 836500;
     private const string BotTypeName = "mercenary";
-
-    private static void EnableAbpsCompat()
-    {
-        var bossSpawnsType = AccessTools.TypeByName("_botplacementsystem.Controllers.BossSpawns");
-        if (bossSpawnsType == null)
-            return;
-
-        try
-        {
-            new Patches.AbpsBossSpawnsPatch().Enable();
-        }
-        catch
-        {
-            // IMPORTANT: Optional compat patch must never crash server.
-        }
-    }
-
     public async Task OnLoad()
     {
         var assembly = Assembly.GetExecutingAssembly();
@@ -93,8 +74,6 @@ public sealed class TheMercenaryServer(
         factionService.AddFriendlyByFaction("bear", BotTypeName);
         factionService.AddFriendlyByFaction("infected", BotTypeName);
 
-        spawnController.ApplySpawnConfig();
-        EnableAbpsCompat();
         await Task.CompletedTask;
     }
 }

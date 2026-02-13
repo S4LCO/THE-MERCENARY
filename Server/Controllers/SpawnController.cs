@@ -1,86 +1,111 @@
+// Pfad: Server/Controllers/SpawnController.cs
+
 using SPTarkov.DI.Annotations;
-using SPTarkov.Server.Core.Models.Eft.Common;
+using SPTarkov.Server.Core.DI;
 using SPTarkov.Server.Core.Services;
+using SPTarkov.Server.Core.Models.Eft.Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using TheMercenaryServer.Models;
 
 namespace TheMercenaryServer.Controllers;
 
-[Injectable(InjectionType = InjectionType.Singleton)]
+[Injectable(InjectionType.Singleton)]
 public sealed class SpawnController(
-    SpawnConfigController configController,
     DatabaseService databaseService,
+    SpawnConfigController spawnConfigController,
     MercenaryLogger logger
 )
 {
-    private const string BotTypeName = "mercenary";
+    private bool _applied;
 
-    public void ApplySpawnConfig()
+    public void ApplySpawnConfig(bool force = false)
     {
-        var config = configController.Config;
-        var locations = databaseService.GetLocations();
+        if (_applied && !force)
+            return;
 
-        foreach (var (mapId, mapCfg) in config.maps)
+        _applied = true;
+
+        var cfg = spawnConfigController.Config;
+        var locations = databaseService.GetLocations();
+        var locDict = locations.GetDictionary();
+
+        foreach (var kvp in cfg.maps)
         {
+            var location = kvp.Key;
+            var mapCfg = kvp.Value;
+
+            if (!locDict.TryGetValue(location, out var loc) || loc?.Base?.BossLocationSpawn == null)
+                continue;
+
+            // Remove any old mercenary entries
+            loc.Base.BossLocationSpawn.RemoveAll(x =>
+                string.Equals(x.BossName, "mercenary", StringComparison.OrdinalIgnoreCase));
+
             if (!mapCfg.enabled)
                 continue;
 
-            if (mapCfg.chance < 0 || mapCfg.chance > 100)
+            var enabledZones = GetEnabledZones(mapCfg);
+            if (enabledZones.Count == 0)
             {
-                logger.Warn($"Invalid chance for map '{mapId}', must be 0-100. Skipping.");
+                // Map enabled but no zones enabled => skip spawn
                 continue;
             }
 
-            var mappedKey = locations.GetMappedKey(mapId);
-            var dict = locations.GetDictionary();
-
-            if (!dict.ContainsKey(mappedKey))
+            loc.Base.BossLocationSpawn.Add(new BossLocationSpawn
             {
-                logger.Warn($"No location data found for '{mapId}'. Skipping.");
-                continue;
-            }
-
-            var spawns = dict[mappedKey].Base.BossLocationSpawn;
-
-            spawns.RemoveAll(x => x.BossName == BotTypeName);
-
-            var zones = (mapCfg.zones ?? new List<string>())
-                .Where(x => !string.IsNullOrWhiteSpace(x))
-                .ToList();
-
-            if (zones.Count == 0)
-            {
-                logger.Warn($"No zones configured for map '{mapId}'. Skipping.");
-                continue;
-            }
-
-            var bossSpawn = new BossLocationSpawn
-            {
-                BossName = BotTypeName,
-                BossChance = mapCfg.chance,
+                BossName = "mercenary",
+                BossChance = ClampChance(mapCfg.chance),
                 BossDifficulty = "normal",
 
-                // IMPORTANT: cannot be empty string in this SPT/EFT version (client Enum.Parse crash)
+                // IMPORTANT: cannot be empty string (client Enum.Parse crash)
                 BossEscortType = "followerBully",
                 BossEscortAmount = "0",
                 BossEscortDifficulty = "normal",
 
                 IsBossPlayer = false,
-                BossZone = string.Join(",", zones),
+                BossZone = string.Join(",", enabledZones),
+
                 Delay = 0,
                 ForceSpawn = false,
                 IgnoreMaxBots = false,
                 IsRandomTimeSpawn = false,
 
-                // Keep minimal to avoid client-side enum parsing issues
                 SpawnMode = ["regular"],
                 Supports = [],
 
                 Time = -1,
                 TriggerId = "",
                 TriggerName = ""
-            };
-
-            spawns.Add(bossSpawn);
-            logger.Info($"Added boss spawn for '{BotTypeName}' on '{mapId}' (chance={mapCfg.chance}).");
+            });
         }
+
+        logger.Info(force
+            ? "Spawn config applied (forced)."
+            : "Spawn config applied.");
+    }
+
+    private static int ClampChance(int v) => v < 0 ? 0 : (v > 100 ? 100 : v);
+
+    private static List<string> GetEnabledZones(MapSpawnConfig mapCfg)
+    {
+        var all = (mapCfg.zones ?? new List<string>())
+            .Where(z => !string.IsNullOrWhiteSpace(z))
+            .Select(z => z.Trim())
+            .ToList();
+
+        if (all.Count == 0)
+            return new List<string>();
+
+        var disabled = new HashSet<string>(
+            (mapCfg.disabledZones ?? new List<string>())
+                .Where(z => !string.IsNullOrWhiteSpace(z))
+                .Select(z => z.Trim()),
+            StringComparer.OrdinalIgnoreCase);
+
+        // enabled = all - disabled
+        var enabled = all.Where(z => !disabled.Contains(z)).ToList();
+        return enabled;
     }
 }

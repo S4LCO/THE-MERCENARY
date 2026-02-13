@@ -105,7 +105,7 @@
       },
       "681245a31eb182c02f0d7f09": {
         "mod_muzzle": [
-          "695aea00e2fd3a399128f47d"
+          "6989e8a997317bab7cb643a3"
         ],
         "mod_gas_block": [
           "68124640c5fd00ec0a01a237"
@@ -113,7 +113,7 @@
       },
       "695aea00e2fd3a399128f47d": {
         "mod_muzzle": [
-          "695a9eeb3b654dfbcd01c0d7"
+          "6989ebdffcb2478e00ffcd6b"
         ]
       },
       "681236df5cbf0518e00557a0": {
@@ -126,7 +126,7 @@
       },
       "5b7be4895acfc400170e2dd5": {
         "mod_foregrip": [
-          "6913809f3cf4b24af9e9175a"
+          "6989c8b39c07cbce1665aff7"
         ]
       },
       "59e6687d86f77411d949b251": {
@@ -372,7 +372,7 @@
     },
     "Ammo": {
       "Caliber762x35": {
-        "697270610a67da4c9fb12a07": 1
+        "697270610a67da4c9fb12a07": 2
       },
       "Caliber366TKM": {
         "6929a52ff37a6a6d03dce9ad": 1

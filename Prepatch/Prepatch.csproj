@@ -15,20 +15,20 @@
     </Reference>
 
     <Reference Include="0Harmony">
-      <HintPath>S:\SPT 4\BepInEx\core\0Harmony.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>S:\SPT 4\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
-      <HintPath>S:\SPT 4\BepInEx\core\Mono.Cecil.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\BepInEx\core\Mono.Cecil.dll</HintPath>
     </Reference>
 
     <Reference Include="UnityEngine">
-      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 

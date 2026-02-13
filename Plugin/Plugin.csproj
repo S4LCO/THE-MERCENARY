@@ -17,55 +17,55 @@
 
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>S:\SPT 4\BepInEx\core\0Harmony.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>S:\SPT 4\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
 
     <Reference Include="Assembly-CSharp">
-      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\Newtonsoft.Json.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\EscapeFromTarkov_Data\Managed\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
-      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\UnityEngine.AIModule.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\EscapeFromTarkov_Data\Managed\UnityEngine.AIModule.dll</HintPath>
     </Reference>
 
     <!-- Required because EFT player types reference IDissonancePlayer -->
     <Reference Include="DissonanceVoip">
-      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\DissonanceVoip.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\EscapeFromTarkov_Data\Managed\DissonanceVoip.dll</HintPath>
     </Reference>
 
     <Reference Include="DrakiaXYZ-BigBrain">
-      <HintPath>S:\SPT 4\BepInEx\plugins\DrakiaXYZ-BigBrain.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\BepInEx\plugins\DrakiaXYZ-BigBrain.dll</HintPath>
     </Reference>
     <Reference Include="SAIN">
-      <HintPath>S:\SPT 4\BepInEx\plugins\SAIN\SAIN.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\BepInEx\plugins\SAIN\SAIN.dll</HintPath>
     </Reference>
 
     <Reference Include="spt-common">
-      <HintPath>S:\SPT 4\BepInEx\plugins\spt\spt-common.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\BepInEx\plugins\spt\spt-common.dll</HintPath>
     </Reference>
     <Reference Include="spt-custom">
-      <HintPath>S:\SPT 4\BepInEx\plugins\spt\spt-custom.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\BepInEx\plugins\spt\spt-custom.dll</HintPath>
     </Reference>
     <Reference Include="spt-singleplayer">
-      <HintPath>S:\SPT 4\BepInEx\plugins\spt\spt-singleplayer.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\BepInEx\plugins\spt\spt-singleplayer.dll</HintPath>
     </Reference>
     <Reference Include="spt-reflection">
-      <HintPath>S:\SPT 4\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
     </Reference>
 
     <Reference Include="Comfort">
-      <HintPath>S:\SPT 4\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
+      <HintPath>S:\SPT_4.0.x\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
     </Reference>
   </ItemGroup>
 

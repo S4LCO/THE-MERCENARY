@@ -10,13 +10,42 @@ public sealed class SpawnConfigController
 {
     public SpawnConfig Config { get; private set; } = new();
 
+    private readonly string _modRoot;
+    private readonly string _configPath;
+
     private readonly ModHelper _modHelper;
 
     public SpawnConfigController(ModHelper modHelper)
     {
         _modHelper = modHelper;
 
-        var modRoot = _modHelper.GetAbsolutePathToModFolder(Assembly.GetExecutingAssembly());
-        Config = _modHelper.GetJsonDataFromFile<SpawnConfig>(modRoot, Path.Join("config", "spawn.jsonc"));
+        _modRoot = _modHelper.GetAbsolutePathToModFolder(Assembly.GetExecutingAssembly());
+        _configPath = Path.Join("config", "spawn.jsonc");
+        Config = _modHelper.GetJsonDataFromFile<SpawnConfig>(_modRoot, _configPath);
+    }
+
+
+    public string GetConfigAbsolutePath() => Path.Join(_modRoot, _configPath);
+
+    public void ReloadFromDisk()
+    {
+        Config = _modHelper.GetJsonDataFromFile<SpawnConfig>(_modRoot, _configPath);
+    }
+
+    public void SaveToDisk(SpawnConfig newConfig)
+    {
+        // Keep it simple: write JSON (no comments). JSONC parser accepts plain JSON.
+        var absPath = GetConfigAbsolutePath();
+        var dir = Path.GetDirectoryName(absPath);
+        if (!string.IsNullOrWhiteSpace(dir))
+            Directory.CreateDirectory(dir);
+
+        var json = System.Text.Json.JsonSerializer.Serialize(newConfig, new System.Text.Json.JsonSerializerOptions
+        {
+            WriteIndented = true
+        });
+
+        File.WriteAllText(absPath, json);
+        Config = newConfig;
     }
 }

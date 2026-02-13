@@ -14,13 +14,12 @@ internal sealed class HuntTargetAction : CustomLogic
     private BotHuntManager huntManager = null!;
     private float nextUpdate;
 
-    private readonly FieldInfo botZoneField;
+    private static readonly FieldInfo BotZoneField = AccessTools.Field(typeof(BotsGroup), "<BotZone>k__BackingField");
     private readonly GClass395 steeringLogic;
 
     public HuntTargetAction(BotOwner botOwner) : base(botOwner)
     {
         steeringLogic = new GClass395();
-        botZoneField = AccessTools.Field(typeof(BotsGroup), "<BotZone>k__BackingField");
     }
 
     public override void Start()
@@ -68,7 +67,7 @@ internal sealed class HuntTargetAction : CustomLogic
         if (BotOwner.BotsGroup.BotZone == zone)
             return;
 
-        botZoneField.SetValue(BotOwner.BotsGroup, zone);
+        BotZoneField.SetValue(BotOwner.BotsGroup, zone);
         BotOwner.PatrollingData.PointChooser.ShallChangeWay(true);
     }
 }
