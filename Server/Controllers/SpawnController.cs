@@ -36,8 +36,23 @@ public sealed class SpawnController(
             var location = kvp.Key;
             var mapCfg = kvp.Value;
 
-            if (!locDict.TryGetValue(location, out var loc) || loc?.Base?.BossLocationSpawn == null)
+            // SPT location keys are not guaranteed to match JSON casing.
+            // Try exact lookup first, then fall back to case-insensitive lookup.
+            if (!locDict.TryGetValue(location, out var loc))
+            {
+                var foundKey = locDict.Keys.FirstOrDefault(k =>
+                    string.Equals(k, location, StringComparison.OrdinalIgnoreCase));
+
+                if (foundKey != null)
+                    loc = locDict[foundKey];
+            }
+
+            if (loc?.Base?.BossLocationSpawn == null)
+            {
+                if (mapCfg.enabled)
+                    logger.Info($"[Spawn] Map key '{location}' not found (or missing BossLocationSpawn) in Locations DB. Skipping.");
                 continue;
+            }
 
             // Remove any old mercenary entries
             loc.Base.BossLocationSpawn.RemoveAll(x =>
@@ -49,14 +64,15 @@ public sealed class SpawnController(
             var enabledZones = GetEnabledZones(mapCfg);
             if (enabledZones.Count == 0)
             {
-                // Map enabled but no zones enabled => skip spawn
+                // Map enabled but no zones enabled => skip spawn (nothing we can do)
+                logger.Info($"[Spawn] '{location}' enabled but has no effective zones (zones - disabledZones is empty). Skipping.");
                 continue;
             }
 
             loc.Base.BossLocationSpawn.Add(new BossLocationSpawn
             {
                 BossName = "mercenary",
-                BossChance = ClampChance(mapCfg.chance),
+                BossChance = 100,
                 BossDifficulty = "normal",
 
                 // IMPORTANT: cannot be empty string (client Enum.Parse crash)
@@ -68,8 +84,8 @@ public sealed class SpawnController(
                 BossZone = string.Join(",", enabledZones),
 
                 Delay = 0,
-                ForceSpawn = false,
-                IgnoreMaxBots = false,
+                ForceSpawn = true,
+                IgnoreMaxBots = true,
                 IsRandomTimeSpawn = false,
 
                 SpawnMode = ["regular"],

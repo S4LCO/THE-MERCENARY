@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
 
     <AssemblyName>TheMercenaryServer</AssemblyName>
-    <Version>1.5.0</Version>
+    <Version>1.5.2</Version>
 
     <OutputPath>bin\$(Configuration)\$(ProjectName)\$(AssemblyName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -24,10 +24,10 @@
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
     </PackageReference>
 
-    <PackageReference Include="SPTarkov.Common" Version="4.0.0" />
-    <PackageReference Include="SPTarkov.DI" Version="4.0.0" />
-    <PackageReference Include="SPTarkov.Server.Core" Version="4.0.0" />
-    <PackageReference Include="SPTarkov.Reflection" Version="4.0.0" />
+    <PackageReference Include="SPTarkov.Common" Version="4.0.3" />
+    <PackageReference Include="SPTarkov.DI" Version="4.0.3" />
+    <PackageReference Include="SPTarkov.Server.Core" Version="4.0.3" />
+    <PackageReference Include="SPTarkov.Reflection" Version="4.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,7 +48,6 @@
     <Content Include="db\CustomLocales\en.json" />
     <Content Include="config\spawn.jsonc" />
 
-    <!-- ODIN achievement -->
     <Content Include="db\CustomAchievements\Achievements\odin_achievement.json" />
     <Content Include="db\CustomAchievements\Locales\en.json" />
     <Content Include="db\CustomAchievements\Images\odin.png" />
