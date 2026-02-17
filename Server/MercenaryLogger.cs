@@ -7,21 +7,21 @@ namespace TheMercenaryServer;
 [Injectable(InjectionType.Singleton)]
 public sealed class MercenaryLogger
 {
-    private readonly bool _enableLogs;
     private readonly ISptLogger<MercenaryLogger> _logger;
+    private readonly SpawnConfigController _config;
 
     public MercenaryLogger(ISptLogger<MercenaryLogger> logger, SpawnConfigController configController)
     {
-        _enableLogs = configController.Config.enableLogs;
         _logger = logger;
+        _config = configController;
     }
+
+    private bool EnableLogsSafe => _config?.Config?.enableLogs ?? false;
 
     public void Info(string message)
     {
-        if (_enableLogs)
-        {
+        if (EnableLogsSafe)
             _logger.Info($"[TheMercenary] {message}");
-        }
     }
 
     public void Warn(string message)

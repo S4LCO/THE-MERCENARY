@@ -61,6 +61,14 @@ public sealed class SpawnController(
             if (!mapCfg.enabled)
                 continue;
 
+            var chance = ClampChance(mapCfg.chance);
+            if (chance <= 0)
+            {
+                // Explicitly disabled by chance
+                logger.Info($"[Spawn] '{location}' enabled but chance is 0%. Skipping.");
+                continue;
+            }
+
             var enabledZones = GetEnabledZones(mapCfg);
             if (enabledZones.Count == 0)
             {
@@ -72,7 +80,7 @@ public sealed class SpawnController(
             loc.Base.BossLocationSpawn.Add(new BossLocationSpawn
             {
                 BossName = "mercenary",
-                BossChance = 100,
+                BossChance = chance,
                 BossDifficulty = "normal",
 
                 // IMPORTANT: cannot be empty string (client Enum.Parse crash)
@@ -84,7 +92,7 @@ public sealed class SpawnController(
                 BossZone = string.Join(",", enabledZones),
 
                 Delay = 0,
-                ForceSpawn = true,
+                ForceSpawn = false,
                 IgnoreMaxBots = true,
                 IsRandomTimeSpawn = false,
 

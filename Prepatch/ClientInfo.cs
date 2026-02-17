@@ -6,5 +6,5 @@ public static class ClientInfo
     public const string PreLoadGUID = "de.salco.themercenary";
     public const string PluginName = "TheMercenary";
     public const string PreLoadName = "TheMercenary Prepatch";
-    public const string Version = "1.5.0";
+    public const string Version = "1.5.3";
 }
