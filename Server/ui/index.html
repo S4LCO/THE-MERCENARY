@@ -8,280 +8,34 @@
 </head>
 <body>
   <div class="shell">
-    <div class="header">
-      <div>
-        <h1 class="title">The Mercenary <span class="badge">Odin</span></h1>
-        <p class="sub">Local WebUI. Changes are saved to <span class="muted">config/spawn.jsonc</span> and hot-applied.</p>
-      </div>
-      <div class="muted" style="font-size:12px; text-align:right;">
-        Tip: If the SPT port is 6969,<br/>set a different port in <span class="muted">config/webui.jsonc</span>.
-      </div>
+    <div class="top">
+      <div class="title">The Mercenary <span class="badge">1.5.4</span></div>
+      <div class="muted">Edits <span class="mono">config/spawn.jsonc</span> and hot-applies.</div>
     </div>
 
-    <div class="card">
-      <div class="row" style="margin-bottom:12px;">
-        <button id="reloadBtn">Reload</button>
-        <button id="saveBtn" class="primary">Save & Apply</button>
-        <span id="status" class="status"></span>
-      </div>
+    <div class="bar">
+      <button id="reloadBtn">Reload</button>
+      <button id="saveBtn" class="primary">Save & Apply</button>
+      <span id="status" class="status"></span>
+    </div>
 
-      <hr/>
+    <div id="list" class="list"></div>
 
-      <div class="row" style="margin-bottom:12px; flex-wrap: wrap;">
-        <label title="Global: enable/disable Odin spawns">
-          <input type="checkbox" id="enabled" />
-          <span>Enabled</span>
-        </label>
-
-        <label title="Only relevant if multiple Odins could exist at once (usually: no).">
-          <span>Max alive</span>
-          <input type="number" id="maxAlive" min="0" max="10" />
-        </label>
-
-        <label title="Optional: Hunt Layer toggle (client side)">
-          <input type="checkbox" id="huntEnabled" />
-          <span>Hunt layer</span>
-        </label>
-      </div>
-
-      <hr/>
-
-      <div class="grid">
-        <div class="panel">
-          <h3 class="h3">Maps</h3>
-          <div class="muted" style="font-size:12px; margin-bottom:10px;">
-            Click a map to edit. Enabled maps are highlighted.
-          </div>
-          <div id="mapChips" class="chips"></div>
-        </div>
-
-        <div class="panel">
-          <h3 class="h3">Map settings</h3>
-
-          <div id="noSelection" class="muted" style="font-size:13px;">
-            Select a map on the left.
-          </div>
-
-          <div id="editor" style="display:none;">
-            <div class="row" style="margin-bottom:10px;">
-              <div class="pill" id="selectedMapLabel"></div>
-
-              <label title="Enable/disable Odin on this map" style="margin-left:auto;">
-                <input type="checkbox" id="mapEnabled" />
-                <span>Enabled</span>
-              </label>
-            </div>
-
-            <div class="row" style="margin-bottom:10px; flex-wrap:wrap;">
-              <label title="Spawn chance in percent (0–100)">
-                <span>Chance %</span>
-                <input type="number" id="mapChance" min="0" max="100" />
-              </label>
-
-              <label title="Quick chance slider">
-                <span>Slider</span>
-                <input type="range" id="mapChanceRange" min="0" max="100" />
-              </label>
-            </div>
-
-            <div class="muted" style="font-size:12px; margin: 8px 0 8px 2px;">
-              Zones (click to toggle)
-            </div>
-            <div id="zoneChips" class="chips"></div>
-
-            <div class="row" style="margin-top:12px; flex-wrap:wrap;">
-              <label title="Add a custom zone name (optional)">
-                <span>Custom zone</span>
-                <input type="text" id="customZone" placeholder="e.g. ZoneGate_01" />
-              </label>
-              <button id="addZoneBtn" style="margin-top:18px;">Add</button>
-              <button id="clearZonesBtn" class="ghost" style="margin-top:18px;">Clear</button>
-            </div>
-
-            <div class="muted" style="font-size:12px; margin-top:10px;">
-              Note: zones are derived from the server DB boss zones (best effort). You can add your own if needed.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <hr/>
-
-      <details>
-        <summary class="muted">Advanced: view raw JSON</summary>
-        <textarea id="rawJson" spellcheck="false"></textarea>
-      </details>
-
-      <div class="footer">
-        <span class="muted">Hint: changes apply to new raids (or next spawn).</span>
-        <span class="muted">The Mercenary WebUI</span>
-      </div>
+    <div class="foot muted">
+      Open: <span class="mono">http://127.0.0.1:6969</span> (change in <span class="mono">config/webui.jsonc</span>)
     </div>
   </div>
 
 <script>
-/* Inline app.js (no .js file on disk, to keep SPT loader happy) */
 const statusEl = document.getElementById("status");
-const rawJsonEl = document.getElementById("rawJson");
-
-const enabledEl = document.getElementById("enabled");
-const maxAliveEl = document.getElementById("maxAlive");
-const huntEnabledEl = document.getElementById("huntEnabled");
-
-const mapChipsEl = document.getElementById("mapChips");
-const zoneChipsEl = document.getElementById("zoneChips");
-
-const noSelEl = document.getElementById("noSelection");
-const editorEl = document.getElementById("editor");
-const selectedMapLabelEl = document.getElementById("selectedMapLabel");
-
-const mapEnabledEl = document.getElementById("mapEnabled");
-const mapChanceEl = document.getElementById("mapChance");
-const mapChanceRangeEl = document.getElementById("mapChanceRange");
-const customZoneEl = document.getElementById("customZone");
+const listEl = document.getElementById("list");
 
 document.getElementById("reloadBtn").addEventListener("click", () => loadAll());
 document.getElementById("saveBtn").addEventListener("click", () => save());
 
-document.getElementById("addZoneBtn").addEventListener("click", () => addCustomZone());
-document.getElementById("clearZonesBtn").addEventListener("click", () => clearZones());
-
 function setStatus(msg, isError=false){
   statusEl.textContent = msg || "";
-  statusEl.style.color = isError ? "var(--danger)" : "var(--muted)";
-}
-
-function el(tag, attrs={}, children=[]){
-  const n = document.createElement(tag);
-  for (const [k,v] of Object.entries(attrs)){
-    if (k === "text") n.textContent = v;
-    else if (k === "html") n.innerHTML = v;
-    else if (k === "class") n.className = v;
-    else n.setAttribute(k, v);
-  }
-  for (const c of children) n.appendChild(c);
-  return n;
-}
-
-let meta = null;
-let cfg = null;
-let selectedMap = null;
-
-function ensureMapCfg(mapId){
-  if (!cfg.maps) cfg.maps = {};
-  if (!cfg.maps[mapId]){
-    cfg.maps[mapId] = { enabled: false, chance: 0, zones: [] };
-  }
-  if (!Array.isArray(cfg.maps[mapId].zones)) cfg.maps[mapId].zones = [];
-  if (typeof cfg.maps[mapId].chance !== "number") cfg.maps[mapId].chance = Number(cfg.maps[mapId].chance || 0);
-}
-
-function isMapEnabled(mapId){
-  try{ return !!(cfg.maps && cfg.maps[mapId] && cfg.maps[mapId].enabled); }catch{ return false; }
-}
-
-function renderMapChips(){
-  mapChipsEl.innerHTML = "";
-  const maps = (meta && meta.maps) ? meta.maps : Object.keys(cfg.maps || {});
-  maps.forEach(mapId => {
-    ensureMapCfg(mapId);
-
-    const chip = el("button", { class: "chip", type:"button" }, [
-      el("span", { text: mapId })
-    ]);
-
-    const enabled = isMapEnabled(mapId);
-    if (enabled) chip.classList.add("on");
-    if (selectedMap === mapId) chip.classList.add("sel");
-
-    chip.addEventListener("click", () => {
-      selectedMap = mapId;
-      renderMapChips();
-      renderEditor();
-    });
-
-    mapChipsEl.appendChild(chip);
-  });
-}
-
-function renderZones(){
-  zoneChipsEl.innerHTML = "";
-  if (!selectedMap) return;
-
-  ensureMapCfg(selectedMap);
-  const known = (meta && meta.zonesByMap && meta.zonesByMap[selectedMap]) ? meta.zonesByMap[selectedMap] : [];
-  const selected = new Set((cfg.maps[selectedMap].zones || []).map(z => String(z)));
-
-  // show known zones first
-  known.forEach(z => {
-    const chip = el("button", { class:"chip", type:"button" }, [ el("span",{text:z}) ]);
-    if (selected.has(z)) chip.classList.add("on");
-    chip.addEventListener("click", () => {
-      toggleZone(z);
-      renderZones();
-    });
-    zoneChipsEl.appendChild(chip);
-  });
-
-  // show custom zones that are not in known list
-  const extra = Array.from(selected).filter(z => !known.includes(z)).sort();
-  if (extra.length){
-    zoneChipsEl.appendChild(el("div",{class:"muted", style:"width:100%; font-size:12px; margin:10px 0 6px 2px;", text:"Custom / unknown zones"}));
-    extra.forEach(z => {
-      const chip = el("button", { class:"chip on", type:"button" }, [ el("span",{text:z}) ]);
-      chip.addEventListener("click", () => {
-        toggleZone(z);
-        renderZones();
-      });
-      zoneChipsEl.appendChild(chip);
-    });
-  }
-}
-
-function toggleZone(z){
-  ensureMapCfg(selectedMap);
-  const zones = cfg.maps[selectedMap].zones;
-  const idx = zones.findIndex(x => String(x).toLowerCase() === String(z).toLowerCase());
-  if (idx >= 0) zones.splice(idx,1);
-  else zones.push(z);
-}
-
-function renderEditor(){
-  if (!selectedMap){
-    noSelEl.style.display = "block";
-    editorEl.style.display = "none";
-    return;
-  }
-
-  ensureMapCfg(selectedMap);
-  const mc = cfg.maps[selectedMap];
-
-  noSelEl.style.display = "none";
-  editorEl.style.display = "block";
-
-  selectedMapLabelEl.textContent = selectedMap;
-
-  mapEnabledEl.checked = !!mc.enabled;
-  mapChanceEl.value = String(mc.chance ?? 0);
-  mapChanceRangeEl.value = String(mc.chance ?? 0);
-
-  mapEnabledEl.onchange = () => {
-    mc.enabled = mapEnabledEl.checked;
-    renderMapChips();
-  };
-
-  mapChanceEl.oninput = () => {
-    mc.chance = clampInt(mapChanceEl.value, 0, 100);
-    mapChanceEl.value = String(mc.chance);
-    mapChanceRangeEl.value = String(mc.chance);
-  };
-
-  mapChanceRangeEl.oninput = () => {
-    mc.chance = clampInt(mapChanceRangeEl.value, 0, 100);
-    mapChanceEl.value = String(mc.chance);
-  };
-
-  renderZones();
+  statusEl.classList.toggle("err", !!isError);
 }
 
 function clampInt(v, min, max){
@@ -293,20 +47,141 @@ function clampInt(v, min, max){
   return n;
 }
 
-function addCustomZone(){
-  if (!selectedMap) return;
-  const z = String(customZoneEl.value || "").trim();
-  if (!z) return;
-  toggleZone(z);
-  customZoneEl.value = "";
-  renderZones();
+function ensureMapCfg(mapId){
+  if (!cfg.maps) cfg.maps = {};
+  if (!cfg.maps[mapId]){
+    cfg.maps[mapId] = { enabled: false, chance: 0, zones: [], disabledZones: [] };
+  }
+  const m = cfg.maps[mapId];
+  if (!Array.isArray(m.zones)) m.zones = [];
+  if (!Array.isArray(m.disabledZones)) m.disabledZones = [];
+  if (typeof m.enabled !== "boolean") m.enabled = !!m.enabled;
+  if (typeof m.chance !== "number") m.chance = clampInt(m.chance, 0, 100);
 }
 
-function clearZones(){
-  if (!selectedMap) return;
-  ensureMapCfg(selectedMap);
-  cfg.maps[selectedMap].zones = [];
-  renderZones();
+function isZoneEnabled(mapId, zone){
+  ensureMapCfg(mapId);
+  const dis = new Set((cfg.maps[mapId].disabledZones || []).map(z => String(z).toLowerCase()));
+  return !dis.has(String(zone).toLowerCase());
+}
+
+function setZoneEnabled(mapId, zone, enabled){
+  ensureMapCfg(mapId);
+  const dz = cfg.maps[mapId].disabledZones;
+  const idx = dz.findIndex(x => String(x).toLowerCase() === String(zone).toLowerCase());
+
+  if (enabled){
+    if (idx >= 0) dz.splice(idx, 1);
+  } else {
+    if (idx < 0) dz.push(zone);
+  }
+}
+
+let cfg = null;
+let meta = null;
+
+function render(){
+  listEl.innerHTML = "";
+
+  const maps = (meta && meta.maps) ? meta.maps : Object.keys(cfg.maps || {});
+  maps.forEach(mapId => {
+    ensureMapCfg(mapId);
+
+    // Self-heal: if config zones are empty but meta has zones, copy them into cfg.zones (authoritative list).
+    const metaZones = (meta && meta.zonesByMap && meta.zonesByMap[mapId]) ? meta.zonesByMap[mapId] : [];
+    if ((cfg.maps[mapId].zones || []).length === 0 && metaZones.length > 0){
+      cfg.maps[mapId].zones = [...metaZones];
+    }
+
+    const m = cfg.maps[mapId];
+
+    const row = document.createElement("div");
+    row.className = "row";
+
+    const head = document.createElement("div");
+    head.className = "head";
+
+    const name = document.createElement("div");
+    name.className = "name mono";
+    name.textContent = mapId;
+
+    const enabled = document.createElement("label");
+    enabled.className = "toggle";
+    const enabledCb = document.createElement("input");
+    enabledCb.type = "checkbox";
+    enabledCb.checked = !!m.enabled;
+    enabledCb.addEventListener("change", () => { m.enabled = enabledCb.checked; });
+    enabled.appendChild(enabledCb);
+    enabled.appendChild(document.createTextNode(" enabled"));
+
+    const chanceWrap = document.createElement("div");
+    chanceWrap.className = "chance";
+
+    const chanceVal = document.createElement("div");
+    chanceVal.className = "mono";
+    chanceVal.textContent = (m.chance ?? 0) + "%";
+
+    const slider = document.createElement("input");
+    slider.type = "range";
+    slider.min = "0";
+    slider.max = "100";
+    slider.value = String(m.chance ?? 0);
+    slider.addEventListener("input", () => {
+      m.chance = clampInt(slider.value, 0, 100);
+      slider.value = String(m.chance);
+      chanceVal.textContent = m.chance + "%";
+    });
+
+    chanceWrap.appendChild(chanceVal);
+    chanceWrap.appendChild(slider);
+
+    head.appendChild(name);
+    head.appendChild(enabled);
+    head.appendChild(chanceWrap);
+
+    const details = document.createElement("details");
+    details.className = "zones";
+
+    const summary = document.createElement("summary");
+    summary.textContent = "BotZones";
+    details.appendChild(summary);
+
+    const zones = (cfg.maps[mapId].zones || []);
+    const zoneList = document.createElement("div");
+    zoneList.className = "zonelist";
+
+    if (zones.length === 0){
+      const hint = document.createElement("div");
+      hint.className = "muted";
+      hint.textContent = "No zones known for this map (config zones empty).";
+      zoneList.appendChild(hint);
+    } else {
+      zones.forEach(z => {
+        const item = document.createElement("label");
+        item.className = "zone";
+
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = isZoneEnabled(mapId, z);
+        cb.addEventListener("change", () => setZoneEnabled(mapId, z, cb.checked));
+
+        const txt = document.createElement("span");
+        txt.className = "mono";
+        txt.textContent = z;
+
+        item.appendChild(cb);
+        item.appendChild(txt);
+        zoneList.appendChild(item);
+      });
+    }
+
+    details.appendChild(zoneList);
+
+    row.appendChild(head);
+    row.appendChild(details);
+
+    listEl.appendChild(row);
+  });
 }
 
 async function loadAll(){
@@ -320,47 +195,19 @@ async function loadAll(){
     if (!cfgRes.ok) throw new Error("Config HTTP " + cfgRes.status);
     cfg = await cfgRes.json();
 
-    // meta endpoint is best-effort; UI still works without it
-    if (metaRes.ok){
-      meta = await metaRes.json();
-    } else {
-      meta = { maps: Object.keys(cfg.maps || {}), zonesByMap: {} };
-    }
+    if (metaRes.ok) meta = await metaRes.json();
+    else meta = { maps: Object.keys(cfg.maps || {}), zonesByMap: {} };
 
-    enabledEl.checked = !!cfg.enabled;
-    enabledEl.onchange = () => cfg.enabled = enabledEl.checked;
-
-    maxAliveEl.value = String(cfg.maxAlive ?? 1);
-    maxAliveEl.oninput = () => cfg.maxAlive = clampInt(maxAliveEl.value, 0, 10);
-
-    // currently informational; keep for future wiring
-    huntEnabledEl.checked = !!(cfg.huntEnabled ?? true);
-    huntEnabledEl.onchange = () => cfg.huntEnabled = huntEnabledEl.checked;
-
-    rawJsonEl.value = JSON.stringify(cfg, null, 2);
-
-    // select first enabled map, else first known map
-    selectedMap = null;
-    const mapList = (meta && meta.maps) ? meta.maps : Object.keys(cfg.maps || {});
-    for (const m of mapList){
-      if (isMapEnabled(m)) { selectedMap = m; break; }
-    }
-    if (!selectedMap && mapList.length) selectedMap = mapList[0];
-
-    renderMapChips();
-    renderEditor();
+    render();
     setStatus("Loaded.");
   }catch(err){
     console.error(err);
-    setStatus("Failed to load: " + err.message, true);
+    setStatus("Load failed: " + err.message, true);
   }
 }
 
 async function save(){
   if (!cfg){ setStatus("Nothing to save.", true); return; }
-
-  // keep raw json in sync (useful for debugging)
-  rawJsonEl.value = JSON.stringify(cfg, null, 2);
 
   setStatus("Saving …");
   try{
@@ -369,8 +216,10 @@ async function save(){
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(cfg, null, 2)
     });
+
     const txt = await res.text();
     if (!res.ok) throw new Error(txt || ("HTTP " + res.status));
+
     setStatus(txt || "Saved.");
   }catch(err){
     console.error(err);

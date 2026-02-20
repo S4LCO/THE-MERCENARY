@@ -2,6 +2,8 @@
 
 using SPTarkov.DI.Annotations;
 using SPTarkov.Server.Core.DI;
+using SPTarkov.Server.Core.Services;
+using SPTarkov.Server.Core.Models.Eft.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,6 +24,7 @@ namespace TheMercenaryServer.Controllers;
 public sealed class WebUiServer(
     WebUiConfigController webUiConfig,
     SpawnConfigController spawnConfig,
+    DatabaseService databaseService,
     SpawnController spawnController,
     MercenaryLogger logger
 ) : IOnLoad
@@ -191,7 +194,7 @@ public sealed class WebUiServer(
             return;
         }
 
-        // Minimal validation: clamp chance, normalize zones
+        // Minimal validation: clamp chance, normalize zones + disabledZones
         foreach (var kvp in newCfg.maps)
         {
             var m = kvp.Value;
@@ -199,14 +202,33 @@ public sealed class WebUiServer(
             if (m.chance < 0) m.chance = 0;
             if (m.chance > 100) m.chance = 100;
 
-            if (m.zones != null)
+            // zones (authoritative list) - trim + remove empty + distinct
+            m.zones ??= new List<string>();
+            for (var i = m.zones.Count - 1; i >= 0; i--)
             {
-                for (var i = m.zones.Count - 1; i >= 0; i--)
-                {
-                    if (string.IsNullOrWhiteSpace(m.zones[i]))
-                        m.zones.RemoveAt(i);
-                }
+                if (string.IsNullOrWhiteSpace(m.zones[i]))
+                    m.zones.RemoveAt(i);
+                else
+                    m.zones[i] = m.zones[i].Trim();
             }
+            m.zones = m.zones
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(z => z, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            // disabledZones - trim + remove empty + distinct
+            m.disabledZones ??= new List<string>();
+            for (var i = m.disabledZones.Count - 1; i >= 0; i--)
+            {
+                if (string.IsNullOrWhiteSpace(m.disabledZones[i]))
+                    m.disabledZones.RemoveAt(i);
+                else
+                    m.disabledZones[i] = m.disabledZones[i].Trim();
+            }
+            m.disabledZones = m.disabledZones
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(z => z, StringComparer.OrdinalIgnoreCase)
+                .ToList();
         }
 
         spawnConfig.SaveToDisk(newCfg);
@@ -216,33 +238,45 @@ public sealed class WebUiServer(
         await WriteText(res, "Saved and applied.").ConfigureAwait(false);
     }
 
-    /// <summary>
-    /// ✅ IMPORTANT: Meta now comes from spawn.jsonc (authoritative),
-    /// not from SPT DB (which contains internal/variant location keys).
-    /// </summary>
     private async Task HandleGetMeta(HttpListenerResponse res)
     {
         var cfg = spawnConfig.Config;
 
-        // Maps from config (no fake maps)
+        // Maps from config only (no fake maps)
         var maps = cfg.maps.Keys
             .Where(k => !string.IsNullOrWhiteSpace(k))
             .OrderBy(k => k, StringComparer.OrdinalIgnoreCase)
             .ToList();
 
-        // Zones per map from config (full list you provided)
+        // Best-effort zones:
+        // 1) Prefer config zones (authoritative)
+        // 2) If zones are empty, derive from Locations DB (union of BossZone strings)
         var zonesByMap = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
-        foreach (var kvp in cfg.maps)
-        {
-            var mapId = kvp.Key;
-            var zones = kvp.Value.zones ?? new List<string>();
 
-            zonesByMap[mapId] = zones
+        var locDict = databaseService.GetLocations().GetDictionary();
+
+        foreach (var mapId in maps)
+        {
+            var mapCfg = cfg.maps[mapId];
+
+            var zones = (mapCfg.zones ?? new List<string>())
                 .Where(z => !string.IsNullOrWhiteSpace(z))
                 .Select(z => z.Trim())
                 .Distinct(StringComparer.OrdinalIgnoreCase)
-                .OrderBy(z => z, StringComparer.OrdinalIgnoreCase)
                 .ToList();
+
+            if (zones.Count == 0)
+            {
+                if (TryFindLocation(locDict, mapId, out var loc) && loc != null) // CS8604 fixed
+                {
+                    zones = DeriveZonesFromDb(loc)
+                        .Distinct(StringComparer.OrdinalIgnoreCase)
+                        .OrderBy(z => z, StringComparer.OrdinalIgnoreCase)
+                        .ToList();
+                }
+            }
+
+            zonesByMap[mapId] = zones;
         }
 
         var payload = new { maps, zonesByMap };
@@ -251,6 +285,51 @@ public sealed class WebUiServer(
         res.StatusCode = 200;
         res.ContentType = "application/json; charset=utf-8";
         await WriteBytes(res, Encoding.UTF8.GetBytes(json)).ConfigureAwait(false);
+    }
+
+    private static bool TryFindLocation(
+        Dictionary<string, Location> locDict,
+        string locationKey,
+        out Location? loc
+    )
+    {
+        if (locDict.TryGetValue(locationKey, out loc))
+            return loc != null;
+
+        var foundKey = locDict.Keys.FirstOrDefault(k =>
+            string.Equals(k, locationKey, StringComparison.OrdinalIgnoreCase));
+
+        if (foundKey != null)
+        {
+            loc = locDict[foundKey];
+            return loc != null;
+        }
+
+        loc = null;
+        return false;
+    }
+
+    private static List<string> DeriveZonesFromDb(Location loc)
+    {
+        var list = new List<string>();
+        var spawns = loc.Base?.BossLocationSpawn;
+        if (spawns == null || spawns.Count == 0)
+            return list;
+
+        foreach (var s in spawns)
+        {
+            var bz = s?.BossZone;
+            if (string.IsNullOrWhiteSpace(bz))
+                continue;
+
+            foreach (var part in bz.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+            {
+                if (!string.IsNullOrWhiteSpace(part))
+                    list.Add(part.Trim());
+            }
+        }
+
+        return list;
     }
 
     private async Task ServeFile(HttpListenerResponse res, string relativePath, string contentType)
