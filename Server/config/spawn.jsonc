@@ -3,81 +3,104 @@
   "maps": {
     "shoreline": {
       "enabled": true,
-      "chance": 20,
+      "chance": 100,
       "zones": [
+        "ZoneBunker",
+        "ZoneBusStation",
+        "ZoneForestGasStation",
+        "ZoneForestSpawn",
+        "ZoneForestTruck",
+        "ZoneGasStation",
         "ZoneGreenHouses",
-		"ZoneIsland",
-		"ZoneForestGasStation",
-		"ZoneGasStation",
-		"ZonePowerStation",
-		"ZoneBunker",
-		"ZoneBusStation",
-		"ZonePort",
-		"ZoneForestTruck",
-		"ZoneForestSpawn",
-		"ZoneSanatorium1",
-		"ZoneSanatorium2",
-		"ZoneStartVillage",
-		"ZoneMeteoStation",
-		"ZoneRailWays",
-		"ZoneSmuglers",
-		"ZonePassClose",
-		"ZoneTunnel"
+        "ZoneIsland",
+        "ZoneMeteoStation",
+        "ZonePassClose",
+        "ZonePort",
+        "ZonePowerStation",
+        "ZoneRailWays",
+        "ZoneSanatorium1",
+        "ZoneSanatorium2",
+        "ZoneSmuglers",
+        "ZoneStartVillage",
+        "ZoneTunnel"
       ],
-      "disabledZones": []
+      "disabledZones": [
+        "ZoneBunker",
+        "ZoneBusStation",
+        "ZoneForestGasStation",
+        "ZoneForestSpawn",
+        "ZoneForestTruck",
+        "ZoneGasStation",
+        "ZoneGreenHouses",
+        "ZoneIsland",
+        "ZonePassClose",
+        "ZonePort",
+        "ZonePowerStation",
+        "ZoneRailWays",
+        "ZoneSmuglers",
+        "ZoneStartVillage",
+        "ZoneTunnel"
+      ]
     },
     "sandbox": {
       "enabled": true,
-      "chance": 20,
+      "chance": 15,
       "zones": [
-	    "ZoneSandbox"
-	  ],
+        "ZoneSandbox"
+      ],
       "disabledZones": []
     },
-    "sandbox_high": {
+    "SandboxHigh": {
       "enabled": true,
-      "chance": 20,
+      "chance": 15,
       "zones": [
-	    "ZoneSandbox"
-	  ],
+        "ZoneSandbox"
+      ],
       "disabledZones": []
     },
     "interchange": {
       "enabled": true,
-      "chance": 20,
+      "chance": 15,
       "zones": [
+        "ZoneCenter",
         "ZoneCenterBot",
-		"ZoneIDEA",
-		"ZoneCenter",
-		"ZoneIDEAPark",
-		"ZoneTrucks",
-		"ZoneRoad",
-		"ZoneOLI",
-		"ZoneGoshan",
-		"ZoneOLIPark",
-		"ZonePowerStation"
+        "ZoneGoshan",
+        "ZoneIDEA",
+        "ZoneIDEAPark",
+        "ZoneOLI",
+        "ZoneOLIPark",
+        "ZonePowerStation",
+        "ZoneRoad",
+        "ZoneTrucks"
       ],
-      "disabledZones": []
+      "disabledZones": [
+        "ZoneCenter",
+        "ZoneCenterBot",
+        "ZoneIDEAPark",
+        "ZoneOLIPark",
+        "ZoneRoad",
+        "ZoneTrucks"
+      ]
     },
     "tarkovstreets": {
       "enabled": false,
       "chance": 100,
       "zones": [
-        "ZoneSW01",
-		"ZoneConstruction",
-		"ZoneCarShowroom",
-		"ZoneCinema",
-		"ZoneFactory",
-		"ZoneHotel_1",
-		"ZoneHotel_2",
-		"ZoneConcordia_1",
-		"ZoneConcordiaParking",
-		"ZoneColumn",
-		"ZoneSW00",
-		"ZoneStilo",
-		"ZoneCard1",
-		"ZoneMvd",
-		"ZoneClimova"
+        "ZoneCard1",
+        "ZoneCarShowroom",
+        "ZoneCinema",
+        "ZoneClimova",
+        "ZoneColumn",
+        "ZoneConcordiaParking",
+        "ZoneConcordia_1",
+        "ZoneConstruction",
+        "ZoneFactory",
+        "ZoneHotel_1",
+        "ZoneHotel_2",
+        "ZoneMvd",
+        "ZoneStilo",
+        "ZoneSW00",
+        "ZoneSW01"
       ],
       "disabledZones": []
     },
@@ -85,34 +108,34 @@
       "enabled": false,
       "chance": 100,
       "zones": [
+        "ZoneBlockPost",
         "ZoneBrige",
-		"ZoneCrossRoad",
-		"ZoneDormitory",
-		"ZoneGasStation",
-		"ZoneFactoryCenter",
-		"ZoneFactorySide",
-		"ZoneOldAZS",
-		"ZoneBlockPost",
-		"ZoneTankSquare",
-		"ZoneWade",
-		"ZoneCustoms",
-		"ZoneScavBase"
+        "ZoneCrossRoad",
+        "ZoneCustoms",
+        "ZoneDormitory",
+        "ZoneFactoryCenter",
+        "ZoneFactorySide",
+        "ZoneGasStation",
+        "ZoneOldAZS",
+        "ZoneScavBase",
+        "ZoneTankSquare",
+        "ZoneWade"
       ],
       "disabledZones": []
     },
-    "factory4_day": {
-      "enabled": true,
-      "chance": 100,
-      "zones": [
-        "BotZone"
-      ],
-      "disabledZones": []
-    },
-    "factory4_night": {
+    "Factory4Day": {
       "enabled": false,
       "chance": 100,
       "zones": [
-        "BotZone"
+        "ZoneFactory"
+      ],
+      "disabledZones": []
+    },
+    "Factory4Night": {
+      "enabled": false,
+      "chance": 100,
+      "zones": [
+        "ZoneFactory"
       ],
       "disabledZones": []
     },
@@ -120,41 +143,24 @@
       "enabled": false,
       "chance": 100,
       "zones": [
+        "Zone_Blockpost",
+        "Zone_Bridge",
+        "Zone_Chalet",
         "Zone_Containers",
-		"Zone_Rocks",
-		"Zone_Chalet",
-		"Zone_Village",
-		"Zone_Bridge",
-		"Zone_OldHouse",
-		"Zone_LongRoad",
-		"Zone_RoofBeach",
-		"Zone_DestroyedHouse",
-		"Zone_RoofContainers",
-		"Zone_Blockpost",
-		"Zone_RoofRocks",
-		"Zone_TreatmentRocks",
-		"Zone_TreatmentContainers",
-		"Zone_TreatmentBeach",
-		"Zone_Hellicopter",
-		"Zone_SniperPeak",
-		"Zone_Island",
-		"Zone_Containers",
-		"Zone_Rocks",
-		"Zone_Chalet",
-		"Zone_Village",
-		"Zone_Bridge",
-		"Zone_OldHouse",
-		"Zone_LongRoad",
-		"Zone_RoofBeach",
-		"Zone_DestroyedHouse",
-		"Zone_RoofContainers",
-		"Zone_Blockpost",
-		"Zone_RoofRocks",
-		"Zone_TreatmentRocks",
-		"Zone_TreatmentContainers",
-		"Zone_TreatmentBeach",
-		"Zone_Hellicopter",
-		"Zone_Island"
+        "Zone_DestroyedHouse",
+        "Zone_Hellicopter",
+        "Zone_Island",
+        "Zone_LongRoad",
+        "Zone_OldHouse",
+        "Zone_Rocks",
+        "Zone_RoofBeach",
+        "Zone_RoofContainers",
+        "Zone_RoofRocks",
+        "Zone_SniperPeak",
+        "Zone_TreatmentBeach",
+        "Zone_TreatmentContainers",
+        "Zone_TreatmentRocks",
+        "Zone_Village"
       ],
       "disabledZones": []
     },
@@ -162,11 +168,11 @@
       "enabled": false,
       "chance": 100,
       "zones": [
+        "BotZoneBasement",
+        "BotZoneFloor1",
+        "BotZoneFloor2",
         "BotZoneGate1",
-		"BotZoneGate2",
-		"BotZoneBasement",
-		"BotZoneFloor1",
-		"BotZoneFloor2"
+        "BotZoneGate2"
       ],
       "disabledZones": []
     },
@@ -174,13 +180,13 @@
       "enabled": false,
       "chance": 100,
       "zones": [
+        "ZoneBarrack",
+        "ZoneBunkerStorage",
+        "ZonePTOR1",
+        "ZonePTOR2",
         "ZoneRailStrorage",
-		"ZonePTOR1",
-		"ZonePTOR2",
-		"ZoneBarrack",
-		"ZoneBunkerStorage",
-		"ZoneSubStorage",
-		"ZoneSubCommand"
+        "ZoneSubCommand",
+        "ZoneSubStorage"
       ],
       "disabledZones": []
     },
@@ -188,19 +194,19 @@
       "enabled": false,
       "chance": 100,
       "zones": [
-        "ZoneWoodCutter",
-		"ZoneHouse",
-		"ZoneBigRocks",
-		"ZoneRoad",
-		"ZoneHighRocks",
-		"ZoneMiniHouse",
-		"ZoneRedHouse",
-		"ZoneScavBase2",
-		"ZoneClearVill",
-		"ZoneBrokenVill",
-		"ZoneUsecBase",
-		"ZoneStoneBunker",
-		"ZoneDepo"
+        "ZoneBigRocks",
+        "ZoneBrokenVill",
+        "ZoneClearVill",
+        "ZoneDepo",
+        "ZoneHighRocks",
+        "ZoneHouse",
+        "ZoneMiniHouse",
+        "ZoneRedHouse",
+        "ZoneRoad",
+        "ZoneScavBase2",
+        "ZoneStoneBunker",
+        "ZoneUsecBase",
+        "ZoneWoodCutter"
       ],
       "disabledZones": []
     }

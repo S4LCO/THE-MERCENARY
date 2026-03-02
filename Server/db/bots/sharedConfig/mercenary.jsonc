@@ -59,21 +59,21 @@
     // Roubles
     "5449016a4bdc2d6f028b456f": {
       //  Amount: weighted chance (higher means more likely to be picked)
-      "10000": 5,
-	  "20000": 3,
+      "10000": 2,
+	  "20000": 2,
 	  "50000": 2
     },
     // Dollars
     "5696686a4bdc2da3298b456a": {
-      "300": 5,
-      "500": 3,
+      "300": 2,
+      "500": 2,
       "900": 2
     },
     // Euros
     "569668774bdc2da2298b4568": {
-      "50": 5,
-      "100": 3,
-      "500": 1
+      "50": 2,
+      "100": 2,
+      "500": 2
     },
     // Physical Bitcoin
     "59faff1d86f7746c51718c9c": {

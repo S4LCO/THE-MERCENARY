@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
 
     <AssemblyName>TheMercenaryServer</AssemblyName>
-    <Version>1.5.3</Version>
+    <Version>1.5.5</Version>
 
     <OutputPath>bin\$(Configuration)\$(ProjectName)\$(AssemblyName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -48,9 +48,6 @@
     <Content Include="db\CustomLocales\en.json" />
     <Content Include="config\spawn.jsonc" />
 
-    <Content Include="db\CustomAchievements\Achievements\odin_achievement.json" />
-    <Content Include="db\CustomAchievements\Locales\en.json" />
-    <Content Include="db\CustomAchievements\Images\odin.png" />
   </ItemGroup>
 
 </Project>

@@ -5,8 +5,6 @@ using SPTarkov.Server.Core.DI;
 using SPTarkov.Server.Core.Models.Eft.Common;
 using SPTarkov.Server.Core.Models.Spt.Mod;
 using System.Reflection;
-using TheMercenaryServer.Controllers;
-
 namespace TheMercenaryServer;
 
 public record ModMetadata : AbstractModMetadata
@@ -15,14 +13,13 @@ public record ModMetadata : AbstractModMetadata
     public override string Name { get; init; } = "The Mercenary";
     public override string Author { get; init; } = "Salco";
     public override List<string>? Contributors { get; init; } = new() { };
-    public override SemanticVersioning.Version Version { get; init; } = new(1, 5, 4);
+    public override SemanticVersioning.Version Version { get; init; } = new(1, 5, 5);
     public override SemanticVersioning.Range SptVersion { get; init; } = new("~4.0.3");
     public override List<string>? Incompatibilities { get; init; }
     public override Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; } = new()
     {
         { "com.morebotsapi.tacticaltoaster", new SemanticVersioning.Range(">=1.1.0") },
-        { "com.wtt.commonlib", new SemanticVersioning.Range("~2.0.15") },
-        { "de.salco.salcosarsenal", new SemanticVersioning.Range("~2.0.0") }
+        { "com.wtt.commonlib", new SemanticVersioning.Range("~2.0.15") }
     };
     public override string? Url { get; init; }
     public override bool? IsBundleMod { get; init; } = true;
@@ -55,10 +52,6 @@ public sealed class TheMercenaryServer(
 
         await wttCommon.CustomBotLoadoutService.CreateCustomBotLoadouts(assembly);
         await wttCommon.CustomLocaleService.CreateCustomLocales(assembly);
-
-        // Load custom achievements (ODIN 50x)
-        await wttCommon.CustomAchievementService.CreateCustomAchievements(assembly);
-
         customBotTypeService.AddCustomWildSpawnTypeNames(typeNames);
 
         // Make Mercenary neutral to bots by default:
